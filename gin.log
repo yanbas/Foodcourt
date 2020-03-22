@@ -13,13 +13,13 @@
 [GIN-debug] DELETE /menu/:id                 --> github.com/foodCourt/app.(*App).DeleteFood-fm (3 handlers)
 [GIN-debug] GET    /order/                   --> github.com/foodCourt/app.(*App).GetAllOrders-fm (3 handlers)
 [GIN-debug] GET    /order/:id                --> github.com/foodCourt/app.(*App).GetOrder-fm (3 handlers)
-[GIN-debug] POST   /order/:id                --> github.com/foodCourt/app.(*App).CreateOrder-fm (3 handlers)
-[GIN-debug] PUT    /order/                   --> github.com/foodCourt/app.(*App).UpdateOrder-fm (3 handlers)
+[GIN-debug] POST   /order/                   --> github.com/foodCourt/app.(*App).CreateOrder-fm (3 handlers)
+[GIN-debug] PUT    /order/:id                --> github.com/foodCourt/app.(*App).UpdateOrder-fm (3 handlers)
 [GIN-debug] DELETE /order/:id                --> github.com/foodCourt/app.(*App).DeleteOrder-fm (3 handlers)
 [GIN-debug] GET    /payment                  --> github.com/foodCourt/app.(*App).GetAllPayments-fm (3 handlers)
 [GIN-debug] GET    /payment/:id              --> github.com/foodCourt/app.(*App).GetPayment-fm (3 handlers)
-[GIN-debug] POST   /payment/:id              --> github.com/foodCourt/app.(*App).CreatePayment-fm (3 handlers)
-[GIN-debug] PUT    /payment                  --> github.com/foodCourt/app.(*App).UpdatePayment-fm (3 handlers)
+[GIN-debug] POST   /payment/                 --> github.com/foodCourt/app.(*App).CreatePayment-fm (3 handlers)
+[GIN-debug] PUT    /payment/:id              --> github.com/foodCourt/app.(*App).UpdatePayment-fm (3 handlers)
 [GIN-debug] DELETE /payment/:id              --> github.com/foodCourt/app.(*App).DeletePayment-fm (3 handlers)
 [GIN-debug] Environment variable PORT is undefined. Using port :8080 by default
 [GIN-debug] Listening and serving HTTP on :8080

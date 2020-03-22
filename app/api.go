@@ -16,11 +16,11 @@ type (
 	}
 
 	Payment struct {
-		Type            string `json:"customer_name"`
-		ReferenceNumber int    `json:"qty"`
-		OrderId         string `json:"menu"`
+		Type            string `json:"type"`
+		ReferenceNumber int    `json:"ref_no"`
+		OrderId         int    `json:"order_id"`
 		Amount          int    `json:"amount"`
-		Status          string `json:"status"`
+		Status          int    `json:"status"`
 	}
 
 	ResultData struct {

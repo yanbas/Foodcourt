@@ -44,15 +44,15 @@ func (a *App) Running() {
 	// Order Feature Routes
 	a.Gin.GET("/order/", a.GetAllOrders)
 	a.Gin.GET("/order/:id", a.GetOrder)
-	a.Gin.POST("/order/:id", a.CreateOrder)
-	a.Gin.PUT("/order/", a.UpdateOrder)
+	a.Gin.POST("/order/", a.CreateOrder)
+	a.Gin.PUT("/order/:id", a.UpdateOrder)
 	a.Gin.DELETE("/order/:id", a.DeleteOrder)
 
-	// Order Feature Routes
+	// Payment Feature Routes
 	a.Gin.GET("/payment", a.GetAllPayments)
 	a.Gin.GET("/payment/:id", a.GetPayment)
-	a.Gin.POST("/payment/:id", a.CreatePayment)
-	a.Gin.PUT("/payment", a.UpdatePayment)
+	a.Gin.POST("/payment/", a.CreatePayment)
+	a.Gin.PUT("/payment/:id", a.UpdatePayment)
 	a.Gin.DELETE("/payment/:id", a.DeletePayment)
 
 	a.Gin.Run()
@@ -82,6 +82,7 @@ func (a *App) CreateFood(c *gin.Context) {
 	if err != nil {
 		a.Logger(err.Error())
 		c.JSON(501, BINDING_JSON_ERROR)
+		return
 	}
 
 	menu := model.Menu{
@@ -93,6 +94,7 @@ func (a *App) CreateFood(c *gin.Context) {
 	if err := a.DB.Create(&menu).Error; err != nil {
 		a.Logger(err.Error())
 		c.JSON(501, INSERT_DATA_ERROR)
+		return
 	}
 
 	c.JSON(201, ResultData{
@@ -124,6 +126,7 @@ func (a *App) UpdateFood(c *gin.Context) {
 	if err != nil {
 		a.Logger(err.Error())
 		c.JSON(500, BINDING_JSON_ERROR)
+		return
 	}
 
 	menu := model.Menu{}
@@ -158,6 +161,7 @@ func (a *App) DeleteFood(c *gin.Context) {
 	if err := a.DB.Delete(&menu, c.Param("id")).Error; err != nil {
 		a.Logger(err.Error())
 		c.JSON(500, DELET_DATA_ERROR)
+		return
 	}
 
 	c.JSON(204, ResultData{
@@ -176,6 +180,7 @@ func (a *App) GetAllOrders(c *gin.Context) {
 	if err := a.DB.Find(&orders).Error; err != nil {
 		a.Logger(err.Error())
 		c.JSON(501, RESULTS_ERROR)
+		return
 	}
 
 	c.JSON(200, ResultData{
@@ -204,35 +209,72 @@ func (a *App) GetOrder(c *gin.Context) {
 }
 
 func (a *App) CreateOrder(c *gin.Context) {
-	// input := &Order{}
-	// err := c.ShouldBindJSON(input)
-	// if err != nil {
-	// 	a.Logger(err.Error())
-	// 	c.JSON(501, BINDING_JSON_ERROR)
-	// }
+	input := &Order{}
+	err := c.ShouldBindJSON(input)
+	if err != nil {
+		a.Logger(err.Error())
+		c.JSON(501, BINDING_JSON_ERROR)
+		return
+	}
 
-	// payment := model.Order{
-	// 	CustomerName: input.CustomerName,
-	// 	MenuId:       input.Menu,
-	// 	Qty:          input.Qty,
-	// 	Status:       input.Status,
-	// 	TableNumber:  input.TableNumber,
-	// }
+	order := model.Order{
+		CustomerName: input.CustomerName,
+		MenuId:       input.Menu,
+		Qty:          input.Qty,
+		Status:       input.Status,
+		TableNumber:  input.TableNumber,
+	}
 
-	// if err := a.DB.Create(&payment).Error; err != nil {
-	// 	a.Logger(err.Error())
-	// 	c.JSON(501, INSERT_DATA_ERROR)
-	// }
+	if err := a.DB.Create(&order).Error; err != nil {
+		a.Logger(err.Error())
+		c.JSON(501, INSERT_DATA_ERROR)
+		return
+	}
 
-	// c.JSON(201, ResultData{
-	// 	Code:    100,
-	// 	Success: true,
-	// 	Data:    "",
-	// })
+	c.JSON(201, ResultData{
+		Code:    100,
+		Success: true,
+		Data:    "",
+	})
 }
 
 func (a *App) UpdateOrder(c *gin.Context) {
+	input := &Order{}
+	err := c.ShouldBindJSON(input)
+	if err != nil {
+		a.Logger(err.Error())
+		c.JSON(500, BINDING_JSON_ERROR)
+		return
+	}
 
+	order := model.Order{}
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	if err := a.DB.First(&order, c.Param("id")).Error; err != nil {
+		a.Logger(err.Error())
+		c.JSON(500, RESULT_ERROR)
+		return
+	}
+
+	order = model.Order{
+		CustomerName: input.CustomerName,
+		Qty:          input.Qty,
+		Status:       input.Status,
+		TableNumber:  input.TableNumber,
+		MenuId:       input.Menu,
+	}
+
+	if err := a.DB.Model(&order).Where("id = ?", id).Updates(&order).Error; err != nil {
+		a.Logger(err.Error())
+		c.JSON(500, UPDATE_DATA_ERROR)
+		return
+	}
+
+	c.JSON(204, ResultData{
+		Code:    100,
+		Success: true,
+		Data:    "",
+	})
 }
 
 func (a *App) DeleteOrder(c *gin.Context) {
@@ -286,11 +328,72 @@ func (a *App) GetPayment(c *gin.Context) {
 }
 
 func (a *App) CreatePayment(c *gin.Context) {
+	input := &Payment{}
+	err := c.ShouldBindJSON(input)
+	if err != nil {
+		a.Logger(err.Error())
+		c.JSON(501, BINDING_JSON_ERROR)
+		return
+	}
 
+	payment := model.Payment{
+		Amount:          input.Amount,
+		OrderId:         input.OrderId,
+		Status:          input.Status,
+		ReferenceNumber: input.ReferenceNumber,
+		Type:            input.Type,
+	}
+
+	if err := a.DB.Create(&payment).Error; err != nil {
+		a.Logger(err.Error())
+		c.JSON(501, INSERT_DATA_ERROR)
+		return
+	}
+
+	c.JSON(201, ResultData{
+		Code:    100,
+		Success: true,
+		Data:    "",
+	})
 }
 
 func (a *App) UpdatePayment(c *gin.Context) {
+	input := &Payment{}
+	err := c.ShouldBindJSON(input)
+	if err != nil {
+		a.Logger(err.Error())
+		c.JSON(500, BINDING_JSON_ERROR)
+		return
+	}
 
+	payment := model.Payment{}
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	if err := a.DB.First(&payment, c.Param("id")).Error; err != nil {
+		a.Logger(err.Error())
+		c.JSON(500, RESULT_ERROR)
+		return
+	}
+
+	payment = model.Payment{
+		Amount:          input.Amount,
+		OrderId:         input.OrderId,
+		Status:          input.Status,
+		ReferenceNumber: input.ReferenceNumber,
+		Type:            input.Type,
+	}
+
+	if err := a.DB.Model(&payment).Where("id = ?", id).Updates(&payment).Error; err != nil {
+		a.Logger(err.Error())
+		c.JSON(500, UPDATE_DATA_ERROR)
+		return
+	}
+
+	c.JSON(204, ResultData{
+		Code:    100,
+		Success: true,
+		Data:    "",
+	})
 }
 
 func (a *App) DeletePayment(c *gin.Context) {

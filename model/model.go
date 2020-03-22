@@ -11,7 +11,7 @@ type Menu struct {
 
 type Order struct {
 	gorm.Model
-	MenuId       Menu `gorm:"foreignkey:UserRefer"`
+	MenuId       int
 	Qty          int
 	CustomerName string
 	TableNumber  int
@@ -22,7 +22,7 @@ type Payment struct {
 	gorm.Model
 	Type            string
 	ReferenceNumber int
-	OrderId         Order `gorm:"foreignkey:UserRefer"`
+	OrderId         int
 	Amount          int
 	Status          int
 }
