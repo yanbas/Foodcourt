@@ -3,7 +3,14 @@ package app
 import (
 	"fmt"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
+
+var APPLICATION_NAME = "FOODCOURT SERVICE"
+var LOGIN_EXPIRATION_DURATION = time.Duration(1) * time.Hour
+var JWT_SIGNING_METHOD = jwt.SigningMethodHS256
+var JWT_SIGNATURE_KEY = []byte("secret key")
 
 var RESULT_ERROR = ResultData{
 	Code:    333,
@@ -39,6 +46,12 @@ var DELET_DATA_ERROR = ResultData{
 	Code:    370,
 	Success: false,
 	Data:    "Error Update Data",
+}
+
+var INVALID_ATHORIZATION = ResultData{
+	Code:    999,
+	Success: false,
+	Data:    "Invalid Authorization",
 }
 
 func (a *App) Logger(data string) {
