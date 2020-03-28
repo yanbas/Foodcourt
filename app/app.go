@@ -66,7 +66,8 @@ func (a *App) Running() {
 	auth.PUT("/payment/:id", a.UpdatePayment)
 	auth.DELETE("/payment/:id", a.DeletePayment)
 
-	a.Gin.Run(":15838")
+	port := os.Getenv("PORT")
+	a.Gin.Run(":" + port)
 }
 
 // User Login Auth
