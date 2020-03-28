@@ -1,1 +1,1 @@
-web: food-court-yanbas
+web: foodCourt
