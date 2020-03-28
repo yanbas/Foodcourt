@@ -1,6 +1,6 @@
 package model
 
-import "github.com/src/github.com/jinzhu/gorm"
+import "github.com/jinzhu/gorm"
 
 type Menu struct {
 	gorm.Model
