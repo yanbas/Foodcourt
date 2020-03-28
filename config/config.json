@@ -1,10 +1,10 @@
 {
     "database" : {
-        "host":"127.0.0.1",
+        "host":"ec2-54-88-130-244.compute-1.amazonaws.com",
         "driver":"postgres",
         "port":"5432",
-        "password":"123456",
-        "username":"postgres",
-        "databse": "food_court"
+        "password":"ce75af86f0ce89da5c2e2c120b54a4b158bf361732f1c659f393987864ead82a",
+        "username":"fgpsvrrpcxwnly",
+        "databse": "d6thfe7b23f5ai"
     }
 }

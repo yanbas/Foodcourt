@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -55,6 +56,6 @@ var INVALID_ATHORIZATION = ResultData{
 }
 
 func (a *App) Logger(data string) {
-	log := fmt.Sprintf("%s %s \n", time.Now(), data)
-	a.Log.WriteString(log)
+	msg := fmt.Sprintf("%s %s \n", time.Now(), data)
+	log.Println(msg)
 }

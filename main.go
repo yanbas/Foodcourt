@@ -2,12 +2,9 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
-	"os"
 
 	"github.com/foodCourt/app"
-	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -16,8 +13,8 @@ func main() {
 
 	fmt.Println("Running ...")
 
-	f, _ := os.Create("gin.log")
-	gin.DefaultWriter = io.MultiWriter(f)
+	// f, _ := os.Create("gin.log")
+	// gin.DefaultWriter = io.MultiWriter(f)
 
 	c := app.DBConfig{}
 	app := app.App{}
@@ -40,7 +37,6 @@ func main() {
 	db.LogMode(true)
 
 	app.DB = *&db
-	app.Log = *&f
 
 	app.Running()
 
