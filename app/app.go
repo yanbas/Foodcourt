@@ -66,7 +66,7 @@ func (a *App) Running() {
 	auth.PUT("/payment/:id", a.UpdatePayment)
 	auth.DELETE("/payment/:id", a.DeletePayment)
 
-	a.Gin.Run(":80")
+	a.Gin.Run()
 }
 
 // User Login Auth
